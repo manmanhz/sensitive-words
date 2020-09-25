@@ -15,7 +15,7 @@ public class SensitiveFilterTest extends TestCase{
 	public void test() throws Exception{
 		
 		// 使用默认单例（加载默认词典）
-		SensitiveFilter filter = SensitiveFilter.DEFAULT;
+		SensitiveFilter filter = SensitiveFilterManager.defaultFilter();
 		// 向过滤器增加一个词
 		filter.put("婚礼上唱春天在哪里");
 		
@@ -34,7 +34,7 @@ public class SensitiveFilterTest extends TestCase{
 	
 	public void testLogic(){
 		
-		SensitiveFilter filter = new SensitiveFilter();
+		DefaultSensitiveFilter filter = new DefaultSensitiveFilter();
 		
 		filter.put("你好");
 		filter.put("你好1");
@@ -69,9 +69,9 @@ public class SensitiveFilterTest extends TestCase{
 		}
 		
 		System.out.println(String.format("待过滤文本共 %d 行，%d 字符。", testSuit.size(), length));
-		
-		
-		SensitiveFilter filter = SensitiveFilter.DEFAULT;
+
+
+		SensitiveFilter filter = SensitiveFilterManager.defaultFilter();
 		
 		int replaced = 0;
 		
@@ -96,4 +96,25 @@ public class SensitiveFilterTest extends TestCase{
 		
 	}
 
+	public void test2() {
+
+		String sensitiveWords = "习近平,\n" + "平近习,\n" + "xjp,\n" + "习太子,\n" + "习明泽,\n" + "老习,\n" + "温家宝,\n" + "温加宝,\n"
+			+ "温x,\n" + "温jia宝,\n" + "温宝宝,\n" + "温加饱,\n" + "温加保,\n" + "张培莉,\n" + "温云松,\n" + "温如春,\n" + "温jb,\n"
+			+ "胡温,\n" + "胡x,\n" + "胡jt,\n" + "胡boss,\n" + "胡总,\n" + "胡王八,\n" + "hujintao,\n" + "胡jintao,\n" + "胡j涛,\n"
+			+ "胡惊涛,\n" + "胡景涛,\n" + "胡紧掏,\n" + "湖紧掏,\n" + "胡紧套,\n" + "锦涛,\n" + "hjt,\n" + "胡派,\n" + "胡主席,\n" + "刘永清,\n"
+			+ "胡海峰,\n" + "胡海清,\n" + "江泽民,\n" + "民泽江,\n" + "江胡,\n" + "江哥,\n" + "江主席,\n" + "江书记,\n" + "江浙闽,\n" + "江沢民,\n"
+			+ "江浙民,\n" + "择民,\n" + "则民,\n" + "茳泽民,\n" + "zemin,\n" + "ze民,\n" + "老江,\n" + "老j,\n" + "江core,\n" + "江x,\n"
+			+ "江派,\n" + "江zm,\n" + "jzm,\n" + "江戏子,\n" + "江蛤蟆,\n" + "江某某,\n" + "江贼,\n" + "江猪,\n" + "江氏集团,\n" + "江绵恒,\n"
+			+ "江绵康,\n" + "王冶坪,\n" + "江泽慧,\n" + "邓小平,\n" + "平小邓,\n" + "xiao平,\n" + "邓xp,\n" + "邓晓平,\n" + "邓朴方,\n"
+			+ "邓榕,\n" + "邓质方,\n" + "毛泽东,\n" + "猫泽东";
+		DefaultSensitiveFilter filter = new DefaultSensitiveFilter();
+		for (String sensitiveWord : sensitiveWords.split(",\n")) {
+			filter.put(sensitiveWord);
+		}
+
+		String text1 = "这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子这是一部黄色电影，江江江江将，温抱抱，习太子";
+
+		System.out.println(filter.filter(text1, '*'));
+
+	}
 }
