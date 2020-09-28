@@ -12,18 +12,33 @@ public class SensitiveFilterManager {
 
     private static SensitiveFilter sensitiveFilter;
 
-    public static SensitiveFilter defaultFilter() {
+    public static void init() {
         if (sensitiveFilter == null) {
             sensitiveFilter = new DefaultSensitiveFilter(new BufferedReader(
                 new InputStreamReader(SensitiveFilterManager.class.getResourceAsStream("/sensi_words.txt"),
                     StandardCharsets.UTF_8)));
         }
-        return sensitiveFilter;
     }
 
-    public static SensitiveFilter filter(List<String> words) {
+    public static void init(List<String> words) {
         if (sensitiveFilter == null) {
             sensitiveFilter = new DefaultSensitiveFilter(words);
+        }
+    }
+
+    public static void init(String url) {
+        if (sensitiveFilter == null) {
+            sensitiveFilter = new DefaultSensitiveFilter(new BufferedReader(
+                new InputStreamReader(SensitiveFilterManager.class.getResourceAsStream(url),
+                    StandardCharsets.UTF_8)));
+        }
+    }
+
+    public static SensitiveFilter filter() {
+        if (sensitiveFilter == null) {
+            sensitiveFilter = new DefaultSensitiveFilter(new BufferedReader(
+                new InputStreamReader(SensitiveFilterManager.class.getResourceAsStream("/sensi_words.txt"),
+                    StandardCharsets.UTF_8)));
         }
         return sensitiveFilter;
     }

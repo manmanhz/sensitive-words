@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
 
 public class SensitiveFilterTest extends TestCase{
@@ -15,7 +14,7 @@ public class SensitiveFilterTest extends TestCase{
 	public void test() throws Exception{
 		
 		// 使用默认单例（加载默认词典）
-		SensitiveFilter filter = SensitiveFilterManager.defaultFilter();
+		SensitiveFilter filter = SensitiveFilterManager.filter();
 		// 向过滤器增加一个词
 		filter.put("婚礼上唱春天在哪里");
 		
@@ -71,7 +70,7 @@ public class SensitiveFilterTest extends TestCase{
 		System.out.println(String.format("待过滤文本共 %d 行，%d 字符。", testSuit.size(), length));
 
 
-		SensitiveFilter filter = SensitiveFilterManager.defaultFilter();
+		SensitiveFilter filter = SensitiveFilterManager.filter();
 		
 		int replaced = 0;
 		
