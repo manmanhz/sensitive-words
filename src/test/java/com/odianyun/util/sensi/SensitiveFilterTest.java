@@ -6,7 +6,9 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import junit.framework.TestCase;
 
 public class SensitiveFilterTest extends TestCase{
@@ -115,5 +117,28 @@ public class SensitiveFilterTest extends TestCase{
 
 		System.out.println(filter.filter(text1, '*'));
 
+	}
+
+	public void testRebuild() {
+		List<String> sensitiveWords = Arrays.asList("aaa", "bbb", "ccc");
+		SensitiveFilterManager.init(sensitiveWords);
+		Set<String> filted = SensitiveFilterManager.filter().findWords("aaaaaabcccc");
+		filted.forEach(x->{
+			System.out.println(x);
+		});
+
+		sensitiveWords = Arrays.asList("ddd", "mmmm", "nnnnn");
+		SensitiveFilterManager.filter().rebuild(sensitiveWords);
+		filted = SensitiveFilterManager.filter().findWords("aaaaaabcccc");
+		filted.forEach(x->{
+			System.out.println(x);
+		});
+
+		sensitiveWords = Arrays.asList("aaa", "bbb", "ccc");
+		SensitiveFilterManager.filter().rebuild(sensitiveWords);
+		filted = SensitiveFilterManager.filter().findWords("aaaaaabcccc");
+		filted.forEach(x->{
+			System.out.println(x);
+		});
 	}
 }
