@@ -33,6 +33,7 @@ public class DefaultSensitiveFilter implements SensitiveFilter{
 	 * 使用2个字符的hash定位。
 	 */
 	protected SensitiveNode[] nodes = new SensitiveNode[DEFAULT_INITIAL_CAPACITY];
+	private SensitiveNode[] tmpNodes;
 
 	/**
 	 * 构建一个空的filter
@@ -78,6 +79,10 @@ public class DefaultSensitiveFilter implements SensitiveFilter{
 	 * @date 2017年1月5日 下午2:35:21
 	 */
 	public boolean put(String word){
+		return this.put(word, this.nodes);
+	}
+
+	private boolean put(String word, SensitiveNode[] sensitiveNodes){
 		// 长度小于2的不加入
 		if (word == null || word.trim().length() < 2) {
 			return false;
@@ -92,17 +97,17 @@ public class DefaultSensitiveFilter implements SensitiveFilter{
 		// 计算头两个字符的mix表示（mix相同，两个字符相同）
 		int mix = sp.nextTwoCharMix(0);
 		// 转为在hash桶中的位置
-		int index = hash & (nodes.length - 1);
+		int index = hash & (sensitiveNodes.length - 1);
 
 		// 从桶里拿第一个节点
-		SensitiveNode node = nodes[index];
+		SensitiveNode node = sensitiveNodes[index];
 		if (node == null) {
 			// 如果没有节点，则放进去一个
 			node = new SensitiveNode(mix);
 			// 并添加词
 			node.words.add(sp);
 			// 放入桶里
-			nodes[index] = node;
+			sensitiveNodes[index] = node;
 		} else {
 			// 如果已经有节点（1个或多个），找到正确的节点
 			for (; node != null; node = node.next) {
@@ -119,6 +124,13 @@ public class DefaultSensitiveFilter implements SensitiveFilter{
 			}
 		}
 		return true;
+	}
+
+	public void rebuild(List<String> sensitiveWords) {
+		this.tmpNodes = new SensitiveNode[DEFAULT_INITIAL_CAPACITY];
+		sensitiveWords.forEach(x->this.put(x, this.tmpNodes));
+		this.nodes = this.tmpNodes;
+		this.tmpNodes = null;
 	}
 
 	/**
